@@ -1,4 +1,5 @@
-const Project = require("../models/projectModel");
+const jwt = require('jsonwebtoken');
+const Project = require('../models/projectModel');
 
 const projectResolver = {
     Query:{
@@ -24,10 +25,20 @@ const projectResolver = {
     },
 
     Mutation:{
-        createProject: async(_, { input }) =>{
+        createProject: async(_, { input }, { token }) =>{
             try{
+                console.log("JWT_SECRET:", process.env.JWT_SECRET);
+                console.log("token in resolver", token);
+                if (!token) {
+                    throw new Error('Authentication required');
+                }
+
+                // Verify the token (use jwt.verify or another method)
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                console.log("Decoded user:", decoded);
+
                 const newProject = new Project({
-                    owner: input.owner,
+                    owner: decoded.userId,
                     name: input.name,
                     description: input.description,
                     techStack: input.techStack,
@@ -37,12 +48,18 @@ const projectResolver = {
                 })
 
                 await newProject.save();
+                return newProject;
             }catch(error){
+                console.error("error", error);
                 throw new Error("Error creating project")
             }
         },
-        editProject: async(_, { input }) =>{
+        editProject: async(_, { input }, { token }) =>{
             try{
+                if (!token) {
+                    throw new Error('Authentication required');
+                }
+
                 const project = await Project.findByIdAndUpdate(input._id);
 
                 if(!project){
@@ -65,6 +82,7 @@ const projectResolver = {
 
                 return updatedProject;
             }catch(error){
+                console.error("error", error);
                 throw new Error("Error updating project")
             }
         },

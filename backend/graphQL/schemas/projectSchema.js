@@ -45,7 +45,7 @@ const projectDefs = gql`
         _id: ID
         name: String
         description: String 
-        techStack: String
+        techStack: [String]
         githubLink: String
         liveSiteLink: String
     }
