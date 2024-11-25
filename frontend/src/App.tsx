@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
 import './App.css';
 
 import { Navbar } from './components/Nav';
@@ -7,18 +8,22 @@ import { Profilepage } from './pages/Profile';
 import { Signuppage } from './pages/Signup';
 import { Loginpage } from './pages/Login';
 
+import { client } from './services/apolloClient';
+
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Homepage/>}/>
-        <Route path="/profile" element={<Profilepage/>}/>
-        <Route path="/signup" element={<Signuppage/>}/>
-        <Route path="/login" element={<Loginpage/>}/>
-      </Routes>
-
-    </BrowserRouter>
+    <ApolloProvider client = {client}>
+      <BrowserRouter>
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<Homepage/>}/>
+          <Route path="/profile" element={<Profilepage/>}/>
+          <Route path="/signup" element={<Signuppage/>}/>
+          <Route path="/login" element={<Loginpage/>}/>
+        </Routes>
+      </BrowserRouter>
+    </ApolloProvider>
+    
   )
 }
 

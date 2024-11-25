@@ -19,12 +19,6 @@ const projectResolver = require("../backend/graphQL/resolvers/projectResolver");
 const apolloServer = new ApolloServer({
     typeDefs: [userSchema, projectSchema],
     resolvers: [userResolver, projectResolver],
-    // context: ({ req }) => {
-    //     console.log("Request Headers:", req.headers);
-    //     const token = req.headers.authorization?.replace('Bearer ', '');
-    //     if (!token) throw new Error('No token provided');
-    //     return { token };
-    // },
 });
 
 const cors = {

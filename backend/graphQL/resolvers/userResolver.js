@@ -21,7 +21,8 @@ const userResolver = {
     Mutation:{
         createUser: async (_, { input }) =>{
             try{
-                const existingUser = await User.findOne({ username: input.name });
+                console.log("create user mutation is running");
+                const existingUser = await User.findOne({ username: input.username });
                 if(existingUser){
                     throw new Error("User already exist");
                 }else{
@@ -38,6 +39,7 @@ const userResolver = {
                     return newUser;
                 }
             }catch(error){
+                console.error("error", error);
                 throw new Error("Error creating user", error.message);
             }
         },

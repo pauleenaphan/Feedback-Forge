@@ -11,7 +11,7 @@ export const Navbar = () =>{
                 <button> light/dark mode icon</button>
                 <button onClick={() => {navigate("/")}}> Home icon </button>
                 <button onClick={() => {
-                        if(!isLogged){
+                        if(isLogged){
                             navigate("/profile")
                         }else{
                             navigate("/signup")
