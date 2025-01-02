@@ -55,46 +55,48 @@ export const Signuppage = () =>{
     };
 
     return (
-        <form className="signupForm" onSubmit={handleSubmit}>
-            <label>Name:</label>
-            <input 
-                type="text" 
-                name="username" 
-                value={formData.username}
-                onChange={handleChange} 
-                required 
-            />
+        <main>
+            <form className="signupForm" onSubmit={handleSubmit}>
+                <label>Name:</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    value={formData.username}
+                    onChange={handleChange} 
+                    required 
+                />
 
-            <label>Email:</label>
-            <input 
-                type="email" 
-                name="email" 
-                value={formData.email}
-                onChange={handleChange} 
-                required 
-            />
+                <label>Email:</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    value={formData.email}
+                    onChange={handleChange} 
+                    required 
+                />
 
-            <label>Password:</label>
-            <input 
-                type="password" 
-                name="password" 
-                value={formData.password}
-                onChange={handleChange} 
-                required 
-            />
+                <label>Password:</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    value={formData.password}
+                    onChange={handleChange} 
+                    required 
+                />
 
-            <label>Confirm Password:</label>
-            <input 
-                type="password" 
-                name="confirmPassword" 
-                value={formData.confirmPassword}
-                onChange={handleChange} 
-                required 
-            />
+                <label>Confirm Password:</label>
+                <input 
+                    type="password" 
+                    name="confirmPassword" 
+                    value={formData.confirmPassword}
+                    onChange={handleChange} 
+                    required 
+                />
 
-            <button type="submit">Sign Up</button>
-            <p> Existing user? </p>
-            <button onClick={() => {navigate("/login")}}> Login </button>
-        </form>
+                <button type="submit">Sign Up</button>
+                <p> Existing user? </p>
+                <button onClick={() => {navigate("/login")}}> Login </button>
+            </form>
+        </main>
     );
 }

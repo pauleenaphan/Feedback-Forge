@@ -4,7 +4,7 @@ export const Loginpage = () =>{
     const navigate = useNavigate();
 
     return(
-        <section className="loginpage">
+        <main className="loginpage">
             <form>
                 <label> Email </label>
                 <input type="email" required={true}/>
@@ -15,6 +15,6 @@ export const Loginpage = () =>{
 
             <p> New to FF? </p>
             <button onClick={() => {navigate("/signup")}}> Create new Account </button>
-        </section>
+        </main>
     )
 }

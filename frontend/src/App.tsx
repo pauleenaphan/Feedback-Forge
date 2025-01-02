@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
-import './App.css';
+import "./styles/global.css";
 
 import { Navbar } from './components/Nav';
 import { Homepage } from './pages/Home';
