@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import { CgWebsite } from "react-icons/cg";
 import { FaGithubSquare, FaRegCommentAlt, FaExternalLinkAlt } from "react-icons/fa";
 
 import ffIcon from "../assets/ffIcon.png";
@@ -11,15 +10,15 @@ export const Homepage = () => {
 
     return (
         <main className="font-body flex flex-col gap-20 my-10">
-            <header className="flex justify-center flex-col items-center gap-3 mx-auto w-2/3">
+            <header className="flex justify-center flex-col items-center gap-3 mx-auto w-1/2">
                 <div className="flex flex-col items-center">
                     <img src={ffIcon} className="w-1/6"/>
-                    <h1 className="font-heading text-5xl font-bold text-gray-900 text-center"> 
+                    <h1 className="font-heading text-5xl font-bold text-gray-800 text-center"> 
                         Share Your GitHub Projects, Receive Feedback, and Grow Your Skills
                     </h1>
                 </div>
                 
-                <p className="text-lg text-gray-600">Receive feedback on your projects today from people around the world!</p>
+                <p className="text-lg text-gray-500">Receive feedback on your projects today from people around the world!</p>
 
                 {/* Conditional rendering based on login status */}
                 <div className="flex justify-center gap-3 items-end">
@@ -42,14 +41,14 @@ export const Homepage = () => {
 
             <section className="flex justify-center flex-wrap gap-5">
                 {/* Project card */}
-                <article className="bg-gray-200 p-5 rounded-lg flex flex-col gap-3 w-1/4">
+                <article className="bg-gray-100 p-5 rounded-lg flex flex-col gap-3 w-1/4">
                     <div className="flex justify-between border-b-2 border-black pb-2">
-                        <p className="font-bold"> @Pauleena </p>
+                        <p className="font-heading font-bold text-xl"> @Pauleena </p>
                         <p>12/20/2024</p>
                     </div>
                     <div>
-                        <h2 className="font-bold text-lg"> Meowpop </h2> 
-                        <p> A mockup eccomerce site that allow users to become vendors. Vendors can manage their listings and sell items.</p>
+                        <h2 className="font-medium text-lg "> Meowpop </h2> 
+                        <p className="text-gray-700"> A mockup eccomerce site that allow users to become vendors. Vendors can manage their listings and sell items.</p>
                     </div>
                     <p> React, HTML, CSS, MongoDB</p>
                     <div className="flex justify-between text-2xl items-center">

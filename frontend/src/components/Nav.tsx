@@ -16,7 +16,7 @@ export const Navbar = () =>{
             </div>
             
             <div className="flex items-center gap-5">
-                <button onClick={() => {navigate("/")}}> <FaHome className="text-3xl text-black"/> </button>
+                <button onClick={() => {navigate("/")}}> <FaHome className="text-3xl text-black hover:text-blue-500"/> </button>
                 <button
                 onClick={() => {
                     if (isLogged) {
@@ -26,7 +26,7 @@ export const Navbar = () =>{
                     }
                 }}
                 >
-                    <FaUser className="text-2xl text-black" />
+                    <FaUser className="text-2xl text-black hover:text-blue-500"/>
                 </button>
             </div>
         </nav>
