@@ -19,6 +19,8 @@ const projectResolver = require("../backend/graphQL/resolvers/projectResolver");
 const apolloServer = new ApolloServer({
     typeDefs: [userSchema, projectSchema],
     resolvers: [userResolver, projectResolver],
+    introspection: true,
+    playground: true, 
 });
 
 const cors = {
@@ -26,6 +28,17 @@ const cors = {
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    context: ({ req }) => {
+        // Allow introspection without a token during development or if introspection is enabled
+        if (req.body.query.includes('__schema')) {
+            return {};  // No token required for introspection queries
+        }
+
+        // Check for token in other cases
+        const token = req.headers.authorization?.replace('Bearer ', '');
+        if (!token) throw new Error('No token provided');
+        return { token };
+    },
 };
 
 var app = express();
