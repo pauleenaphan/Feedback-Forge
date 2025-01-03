@@ -6,8 +6,12 @@ export default {
   theme: {
     extend: {
       boxShadow: {
-        'custom-gray': '0 10px 0px rgba(126, 126, 126, 0.5)' // Custom colored shadow
-      }
+        'custom-blue': '0px 10px 0px #0056B3' // Custom colored shadow
+      },
+      fontFamily: {
+        heading: ['Work Sans', 'sans-serif'],
+        body: ['Roboto', 'sans-serif'],
+      },
     },
   },
   plugins: [],
