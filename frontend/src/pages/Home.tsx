@@ -10,7 +10,7 @@ export const Homepage = () => {
 
     return (
         <main className="font-body flex flex-col gap-20 my-10">
-            <header className="flex justify-center flex-col items-center gap-3 mx-auto w-1/2">
+            <header className="flex justify-center flex-col items-center gap-3 mx-auto w-2/3">
                 <div className="flex flex-col items-center">
                     <img src={ffIcon} className="w-1/6"/>
                     <h1 className="font-heading text-5xl font-bold text-gray-800 text-center"> 
