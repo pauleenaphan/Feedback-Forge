@@ -9,11 +9,7 @@ const projectSchema = new Schema({
     datePosted: { type: String, required: true },
     githubLink: { type: String, required: true },
     liveSiteLink: { type: String },
-    comments: [{ 
-        user: { type: String },
-        description: { type: String },
-        datePosted: { type: String }
-    }]
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }] 
 })
 
 module.exports = mongoose.model("Project", projectSchema);

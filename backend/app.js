@@ -1,78 +1,86 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 require("dotenv").config();
-
 const mongoose = require("mongoose");
 
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
 
-const userSchema  = require("../backend/graphQL/schemas/userSchema");
-const projectSchema  = require("../backend/graphQL/schemas/projectSchema");
+const userSchema = require("../backend/graphQL/schemas/userSchema");
+const projectSchema = require("../backend/graphQL/schemas/projectSchema");
+const commentSchema = require("../backend/graphQL/schemas/commentSchema");
 
 const userResolver = require("../backend/graphQL/resolvers/userResolver");
 const projectResolver = require("../backend/graphQL/resolvers/projectResolver");
+const commentResolver = require("../backend/graphQL/resolvers/commentResolver");
 
-const apolloServer = new ApolloServer({
-    typeDefs: [userSchema, projectSchema],
-    resolvers: [userResolver, projectResolver],
-    introspection: true,
-    playground: true, 
-});
-
-const cors = {
-    origin: '*', // Allow all origins; specify yours for production
+const corsOptions = {
+    origin: '*', // Allow all origins, adjust in production
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    context: ({ req }) => {
-        // Allow introspection without a token during development or if introspection is enabled
-        if (req.body.query.includes('__schema')) {
-            return {};  // No token required for introspection queries
-        }
-
-        // Check for token in other cases
-        const token = req.headers.authorization?.replace('Bearer ', '');
-        if (!token) throw new Error('No token provided');
-        return { token };
-    },
 };
 
-var app = express();
+const apolloServer = new ApolloServer({
+    typeDefs: [userSchema, projectSchema, commentSchema],
+    resolvers: [userResolver, projectResolver, commentResolver],
+    introspection: true,
+    playground: true,
+});
 
+const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const getContext = ({ req }) => {
+    // List of queries and mutations that don't require authentication
+    const publicQueries = [
+        'getUser',
+        'getAllProjects',
+        'getProject',
+        'createUser',
+        'login'
+    ];
 
-// Server will start on 3001 port 
+    // Skip token check for introspection queries (like __schema)
+    if (req.body.query.includes('__schema')) {
+        return {};  // No token required for introspection queries
+    }
+
+    // Check if the current query is in the list of public queries
+    const isPublicQuery = publicQueries.some(query => req.body.query.includes(query));
+
+    if (isPublicQuery) {
+        return {};  // No token required for this query
+    }
+
+    // Otherwise, check for token and throw error if not found
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) throw new Error('No token provided');
+    return { token };
+};
+
+
 async function startServer() {
     const { url } = await startStandaloneServer(apolloServer, {
         listen: { port: 3001 },
-        context: ({ req }) => {
-            // console.log("Authorization Header:", req.headers.authorization);
-            const token = req.headers.authorization?.replace('Bearer ', '');
-            if (!token) throw new Error('No token provided');
-            return { token };
-        },
-        cors,
+        context: getContext,
+        cors: corsOptions,
     });
 
     console.log(`Server ready at ${url}`);
 }
 
 mongoose.connect(process.env.MONGO_DB_URL)
-    // Connect to db then start the server
     .then(() => {
-    console.log('MongoDB connected') 
-    startServer();
-}).catch(err => console.error('MongoDB connection error:', err));
-
-
+        console.log('MongoDB connected');
+        startServer();
+    })
+    .catch(err => console.error('MongoDB connection error:', err));
 
 module.exports = app;

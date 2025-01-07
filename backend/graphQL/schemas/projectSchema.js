@@ -20,15 +20,14 @@ const projectDefs = gql`
     }
 
     type Query{
-        getProject(id: ID) : Project
+        getProject(id: ID!) : Project
         getAllProjects: [Project]
     }
 
     type Mutation{
         createProject(input: CreateProjectInput) : Project
         editProject(input: EditProjectInput) : Project
-        deleteProject(input: ID) : Project
-        addComment(input: AddCommentInput) : Comment
+        deleteProject(input: ID!) : Project
     }
 
     input CreateProjectInput{
@@ -48,13 +47,6 @@ const projectDefs = gql`
         techStack: [String]
         githubLink: String
         liveSiteLink: String
-    }
-
-    input AddCommentInput{
-        _id: ID
-        user: String 
-        description: String
-        datePosted: String
     }
 `
 
