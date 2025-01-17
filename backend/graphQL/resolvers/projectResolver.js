@@ -5,7 +5,7 @@ const projectResolver = {
     Query:{
         getProject: async(_, { id })=>{
             try{
-                const project = await Project.findById(id);
+                const project = await Project.findById(id).populate("comments").populate("owner");
                 if(!project){
                     throw new Error("project not found");
                 }
@@ -16,7 +16,7 @@ const projectResolver = {
         },
         getAllProjects: async() =>{
             try{
-                const projects = await Project.find();
+                const projects = await Project.find().populate("comments").populate("owner");
                 return projects;
             }catch(error){
                 throw new Error(error.message);
@@ -40,7 +40,8 @@ const projectResolver = {
                 const newProject = new Project({
                     owner: decoded.userId,
                     name: input.name,
-                    description: input.description,
+                    shortDescription: input.shortDescription,
+                    longDescription: input.longDescription,
                     techStack: input.techStack,
                     datePosted: input.datePosted,
                     githubLink: input.githubLink,
@@ -71,7 +72,8 @@ const projectResolver = {
                     {
                         $set: {
                             name: input.name,
-                            description: input.description,
+                            shortDescription: input.shortDescription,
+                            longDescription: input.longDescription,
                             techStack: input.techStack,
                             githubLink: input.githubLink,
                             liveSiteLink: input.liveSiteLink,
@@ -97,28 +99,6 @@ const projectResolver = {
                 throw new Error("Project was not deleted");
             }
         },
-
-        addComment: async(_, { input }) =>{
-            try{
-                const project = await Project.findById(input._id);
-
-                if(!project){
-                    throw new Error("project not found");
-                }
-
-                const newComment = {
-                    user: input.user,
-                    description: input.description,
-                    datePosted: input.datePosted,
-                }
-
-                project.comments.push(newComment);
-                await project.save();
-                return newComment;
-            }catch(error){
-                throw new Error("Error adding new comment");
-            }
-        }
     }
 }
 

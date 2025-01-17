@@ -7,7 +7,8 @@ export const CREATE_PROJECT = gql`
             _id
             owner
             name
-            description
+            shortDescription
+            longDescription
             techStack
             datePosted
             githubLink
@@ -22,7 +23,8 @@ export const EDIT_PROJECT = gql`
         editProject(input: $input) {
             _id
             name
-            description
+            shortDescription
+            longDescription
             techStack
             githubLink
             liveSiteLink
@@ -46,6 +48,7 @@ export const ADD_COMMENT = gql`
             user
             description
             datePosted
+            projectId
         }
     }
 `;
@@ -55,9 +58,13 @@ export const GET_PROJECT = gql`
     query getProject($id: ID!) {
         getProject(id: $id) {
             _id
-            owner
+            owner{
+                _id
+                username
+            }
             name
-            description
+            shortDescription
+            longDescription
             techStack
             datePosted
             githubLink
@@ -76,9 +83,12 @@ export const GET_ALL_PROJECTS = gql`
     query getAllProjects {
         getAllProjects {
             _id
-            owner
+            owner{
+                _id
+                username
+            }
             name
-            description
+            shortDescription
             techStack
             datePosted
             githubLink

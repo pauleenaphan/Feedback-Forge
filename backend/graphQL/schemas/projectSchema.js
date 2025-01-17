@@ -3,9 +3,10 @@ const { gql } = require("apollo-server");
 const projectDefs = gql`
     type Project{
         _id: ID
-        owner: String
+        owner: User
         name: String
-        description: String 
+        shortDescription: String 
+        longDescription: String
         techStack: [String]
         datePosted: String 
         githubLink: String
@@ -19,22 +20,28 @@ const projectDefs = gql`
         datePosted: String
     }
 
+    type User {
+        _id: ID
+        username: String
+        email: String
+    }
+
     type Query{
-        getProject(id: ID) : Project
+        getProject(id: ID!) : Project
         getAllProjects: [Project]
     }
 
     type Mutation{
         createProject(input: CreateProjectInput) : Project
         editProject(input: EditProjectInput) : Project
-        deleteProject(input: ID) : Project
-        addComment(input: AddCommentInput) : Comment
+        deleteProject(input: ID!) : Project
     }
 
     input CreateProjectInput{
         owner: String
         name: String
-        description: String 
+        shortDescription: String 
+        longDescription: String
         techStack: [String]
         datePosted: String 
         githubLink: String
@@ -44,17 +51,11 @@ const projectDefs = gql`
     input EditProjectInput{
         _id: ID
         name: String
-        description: String 
+        shortDescription: String 
+        longDescription: String
         techStack: [String]
         githubLink: String
         liveSiteLink: String
-    }
-
-    input AddCommentInput{
-        _id: ID
-        user: String 
-        description: String
-        datePosted: String
     }
 `
 
